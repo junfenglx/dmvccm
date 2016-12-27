@@ -365,8 +365,8 @@ class DMVCCM(dmv.DMV):
                     # aqui, mejores parses entre parse[i, k] y parse[k, j]
                     for (p1, t1) in parse[i, k].itervalues():
                         for (p2, t2) in parse[k, j].itervalues():
-                            n1 = t1.node
-                            n2 = t2.node
+                            n1 = t1.label()
+                            n2 = t2.label()
                             if n1.mark[0] == '>' and n2.mark == '|':
                                 m = n1.index
                                 h = n1.word

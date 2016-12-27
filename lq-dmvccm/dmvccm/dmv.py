@@ -34,13 +34,13 @@ class DMV(model.ProjDepModel):
 
     @staticmethod
     def tree_to_depset(t):
-        res = set([(t.node.index, -1)])
+        res = set([(t.label().index, -1)])
         res.update(DMV._tree_to_depset(t))
         return depset.DepSet(len(t.leaves()), sorted(res))
     
     @staticmethod
     def _tree_to_depset(t):
-        node = t.node
+        node = t.label()
         index = node.index
         mark = node.mark
         #res = set([(index, -1)])
@@ -49,10 +49,10 @@ class DMV(model.ProjDepModel):
                 st = t[0]
             elif mark[0] == '>':
                 st = t[1]
-            res = set([(st.node.index, index)])
+            res = set([(st.label().index, index)])
             res.update(DMV._tree_to_depset(t[0]), DMV._tree_to_depset(t[1]))
         else:
-            if not isinstance(t[0], str):
+            if not isinstance(t[0], (str, unicode)):
                 res = DMV._tree_to_depset(t[0])
             else:
                 res = set()
@@ -483,8 +483,8 @@ class DMV(model.ProjDepModel):
                     # aqui, mejores parses entre parse[i, k] y parse[k, j]
                     for (p1, t1) in parse[i, k].itervalues():
                         for (p2, t2) in parse[k, j].itervalues():
-                            n1 = t1.node
-                            n2 = t2.node
+                            n1 = t1.label()
+                            n2 = t2.label()
                             if n1.mark[0] == '>' and n2.mark == '|':
                                 m = n1.index
                                 h = n1.word
@@ -608,7 +608,7 @@ class DMV(model.ProjDepModel):
     def unary_parses(self, p, t, i, j):
         # XXX: This function is lightly recursive, it may be optimized to an 
         # iterative form.
-        node = t.node
+        node = t.label()
         radj = node.index == j-1
         ladj = node.index == i
         if node.mark == '|':
@@ -730,7 +730,7 @@ class ParseDict:
         return self.dict[str(node)]
     
     def add(self, p, t):
-        n = t.node
+        n = t.label()
         s = str(n)
         # Aca esta el bias
         # los resultados estan reportados con esta guarda:

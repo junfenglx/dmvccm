@@ -1,3 +1,8 @@
+**
+Makes it working with Python 2.7 and NLTK 3.
+See file dmv_ccm_demo.py.
+**
+
 
 This project contains an implementation of the DMV and CCM
 

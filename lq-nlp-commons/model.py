@@ -13,6 +13,7 @@ import sentence
 import bracketing
 import wsj10
 
+
 class Model:
     Gold = []
     Parse = []
